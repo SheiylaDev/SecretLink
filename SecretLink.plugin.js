@@ -20,6 +20,7 @@ class SecretLink {
     }
 
     start() {
+        this.MessageActions = BdApi.Webpack.getModule(BdApi.Webpack.Filters.byProps("sendMessage"));
         this.loadSettings();
         this.saveSettings();
         this.addButton();
@@ -199,14 +200,13 @@ class SecretLink {
         document.querySelector('.secretlink-input').blur();
         document.querySelector('.secretlink-input').value = '';
         this.closeDialog();
-        BdApi.Webpack.getModule(BdApi.Webpack.Filters.byProps("sendMessage")).sendMessage(channelID, {
+        this.MessageActions.sendMessage(channelID, {
             content: `${currentMessage}${spaceIfNeeded}[Link](${inputValue})`,
             tts: false,
             invalidEmojis: [],
             validNonShortcutEmojis: []
         });
     }
-
 
     closeDialog() {
         const existingDialog = document.querySelector('.secretlink-dialog');
